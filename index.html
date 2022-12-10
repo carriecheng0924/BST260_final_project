@@ -245,7 +245,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="final_project_website.html">Home</a>
+  <a href="index.html">Home</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -289,7 +289,7 @@ missing values. To deal with the missing values, we impute the missing
 values with the mean of each variable excluding the missing values for
 quantitative variables, and the lowest or reference category for
 categorical variables.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>From the plot, we see that age and the outcome might have a nonlinear
 relationship. Therefore, we calculate the pearson correlation to see the
 strength of linear relationship between each variable and the
@@ -361,23 +361,23 @@ In general, the specificity is higher than the sensitivity rate for the
 three out of five algorithms.</p>
 <p>Now, let’s look at their F1 score against different cut-off
 thresholds for each algorithm.
-<img src="final_project_website_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>We see that for logistic regression, different cut-offs do not
 generally influence the F1 score.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>For random forests, different cut-off values do make a difference on
 the F1 score. Specifically, the cut-off value of 0.4 achieves the
 highest F1 score for random forests. This situation is likely due to
 that random forests apply bootstrapping strategy, which is very likely
 to result in variability among individual trees and their predictions
 and results.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>We see that for classification trees, different cut-offs do not
 generally influence the F1 score.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>We see that for naive bayes, different cut-offs do not generally
 influence the F1 score.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>For k-nearest neighbors, we see there is a sudden jump from cut-off
 value of 0.3 to cut-off value of 0.4. This might indicate that the
 averages taken in different neighbors for this data set have a large
@@ -397,7 +397,7 @@ cross-validation.</p>
 We will train a random forests model for 10 different numbers of trees
 with a 10-fold cross-validation and we keep the number of variables
 randomly selected for placing splits as three.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>From the graph, we see that the accuracy is greatly boosted from
 training only one tree to 101 trees, and the accuracy stays
 approximately the same for even larger number of trees trained. Having a
@@ -407,7 +407,7 @@ randomly selected as predictors on the accuracy of prediction. In this
 tuning process, we trained random forests for 8 different number of
 variables randomly selected as predictors with a 10-fold
 cross-validation and plot them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>From the plot, we see that having three randomly selected predictors
 has the highest accuracy. However, the accuracy across different number
 of randomly selected predictors do not vary much and are generally close
@@ -417,7 +417,7 @@ selected predictors.</p>
 <p>Next, we will tune the classification tree using the complexity
 parameter ranging from 0 to 0.1 with a 10-fold cross-validation and plot
 them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>From the graph, we see that the highest accuracy occurs when the
 complexity parameter is 0.02. The accuracy generally decreases as
 complexity parameter becomes larger. A larger complexity parameter will
@@ -425,7 +425,7 @@ generally result in a smaller number of nodes. This explains the general
 decreasing pattern in accuracy with complexity parameter increasing.</p>
 <p>Now, we will tune the number of neighbors for k-nearest neighbors
 with a 10-fold cross-validation and plot them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>From the graph, we see that the highest accuracy occurs for one
 number of neighbor. This might be due to that the predictors in the data
 set have a wide and varying range. We also see that the overall accuracy
@@ -434,7 +434,7 @@ number of neighbor is one.</p>
 <p>We will tune the bandwidth or flexibility of the kernel density and
 the laplace smoothing correction for naive bayes using a 10-fold
 cross-validation and plot them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>From the graph, we see that the accuracy is highest when bandwidth
 adjustment and laplace correction both equal to 1.</p>
 <p>Finally, we train a logistic regression with a 10-fold
