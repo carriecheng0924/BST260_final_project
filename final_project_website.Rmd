@@ -1,7 +1,7 @@
 ---
-title: "Final Project Report"
+title: "Final Project"
 author: "Carrie Cheng"
-date: "2022-11-30"
+date: "2022-12-10"
 output: html_document
 ---
 # Introduction
@@ -102,7 +102,7 @@ From the table, we see that the absolute values of the pearson correlation mostl
 
 In order to investigate whether machine learning algorithms could capture more complex relationships between predictors and outcome, we will apply flexible models including classification trees, random forests, k-nearest neighbors, and naive bayes. First, we will train each algorithm with fixed parameters using only one train and test set for a reference purpose. We will also train a logistic regression in order to establish a comparison on the performance between the traditional statistical methods and the machine learning algorithms. For random forests, we set the number of trees trained to be 100, and for k-nearest neighbors, we set the number of neighborhood to be 5. 
 
-```{r, echo = FALSE, results = 'hide', message = FALSE, warning = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 #### Let's start with logistics regression 
 
 set.seed(2022)
@@ -177,28 +177,7 @@ table_compare
 
 ```
 
-From the table, random forests and classification trees have higher accuracy than logistic regression, but naive bayes and k-nearest neighbors have lower accuracy than logistic regression even though the accuracy of naive bayes is close to that of logistic regression. However, we see that in terms of sensitivity, naive bayes has the highest value, followed by logistic regression and random forest, then classification trees and k-nearest neighbors. In terms of specificity, classification trees have the highest value, followed by logistic regression and random forests, then naive bayes and k-nearest neighbors. In general, the specificity is higher than the sensitivity rate for the three out of five algorithms. This might result from the fact that there is an imbalance between the observed outcome of having an event and not having an event. If we look at the distribution of the outcome, we see that the proportion of outcome = 1 is higher than that of outcome = 0. 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-data %>% 
-  mutate(class = as.numeric(class),
-         sg = as.numeric(sg),
-         al = as.numeric(al),
-         su = as.numeric(su),
-         rbc = as.numeric(rbc),
-         pc = as.numeric(pc),
-         pcc = as.numeric(pcc),
-         ba = as.numeric(ba),
-         htn = as.numeric(htn),
-         dm = as.numeric(dm),
-         cad = as.numeric(cad),
-         appet = as.numeric(appet),
-         pe = as.numeric(pe),
-         ane = as.numeric(ane)) %>%
-  pivot_longer(age:class) %>%
-  ggplot(aes(value)) + geom_histogram() +
-    facet_wrap(~ name, scales = "free")
-
-```
+From the table, random forests and classification trees have higher accuracy than logistic regression, but naive bayes and k-nearest neighbors have lower accuracy than logistic regression even though the accuracy of naive bayes is close to that of logistic regression. However, we see that in terms of sensitivity, naive bayes has the highest value, followed by logistic regression and random forest, then classification trees and k-nearest neighbors. In terms of specificity, classification trees have the highest value, followed by logistic regression and random forests, then naive bayes and k-nearest neighbors. In general, the specificity is higher than the sensitivity rate for the three out of five algorithms.
 
 Now, let's look at their F1 score against different cut-off thresholds for each algorithm. We see that for logistic regression, classification trees, naive bayes, different cut-offs do not generally influence the F1 score. For random forests, different cut-off values do make a difference on the F1 score. Specifically, the cut-off value of 0.4 achieves the highest F1 score for random forests. This situation is likely due to that random forests apply bootstrapping strategy, which is very likely to result in variability among individual trees and their predictions and results. For k-nearest neighbors, we see there is a sudden jump from cut-off value of 0.3 to cut-off value of 0.4. This might indicate that the averages taken in different neighbors for this data set have a large variation so that setting the cut-off to 0.3 will make a difference in prediction. In general, logistic regression, classification trees, random forests, and naive bayes all have similar F1 scores, and k-nearest neighbors have the lowest F1 score.
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}

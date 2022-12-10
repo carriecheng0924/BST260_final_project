@@ -11,9 +11,9 @@
 
 <meta name="author" content="Carrie Cheng" />
 
-<meta name="date" content="2022-11-30" />
+<meta name="date" content="2022-12-10" />
 
-<title>Final Project Report</title>
+<title>Final Project</title>
 
 <script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -259,9 +259,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Final Project Report</h1>
+<h1 class="title toc-ignore">Final Project</h1>
 <h4 class="author">Carrie Cheng</h4>
-<h4 class="date">2022-11-30</h4>
+<h4 class="date">2022-12-10</h4>
 
 </div>
 
@@ -342,6 +342,12 @@ establish a comparison on the performance between the traditional
 statistical methods and the machine learning algorithms. For random
 forests, we set the number of trees trained to be 100, and for k-nearest
 neighbors, we set the number of neighborhood to be 5.</p>
+<pre><code>##               Accuracy Sensitivity Specificity
+## metric_logit 0.9008264   0.9361702   0.8783784
+## metric_rf    0.9752066   0.9361702   1.0000000
+## metric_tree  0.9586777   0.9148936   0.9864865
+## metric_nb    0.9090909   0.9574468   0.8783784
+## metric_knn   0.6942149   0.8510638   0.5945946</code></pre>
 <p>From the table, random forests and classification trees have higher
 accuracy than logistic regression, but naive bayes and k-nearest
 neighbors have lower accuracy than logistic regression even though the
@@ -352,11 +358,7 @@ classification trees and k-nearest neighbors. In terms of specificity,
 classification trees have the highest value, followed by logistic
 regression and random forests, then naive bayes and k-nearest neighbors.
 In general, the specificity is higher than the sensitivity rate for the
-three out of five algorithms. This might result from the fact that there
-is an imbalance between the observed outcome of having an event and not
-having an event. If we look at the distribution of the outcome, we see
-that the proportion of outcome = 1 is higher than that of outcome = 0.
-<img src="final_project_website_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+three out of five algorithms.</p>
 <p>Now, let’s look at their F1 score against different cut-off
 thresholds for each algorithm. We see that for logistic regression,
 classification trees, naive bayes, different cut-offs do not generally
@@ -372,11 +374,11 @@ data set have a large variation so that setting the cut-off to 0.3 will
 make a difference in prediction. In general, logistic regression,
 classification trees, random forests, and naive bayes all have similar
 F1 scores, and k-nearest neighbors have the lowest F1 score.
-<img src="final_project_website_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<img src="final_project_website_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="final_project_website_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p><img src="final_project_website_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p><img src="final_project_website_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p><img src="final_project_website_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Nevertheless, these results are only based on a single
 cross-validation set with fixed parameters. However, the performance of
 these algorithms might differ with different parameters. Therefore, we
@@ -389,7 +391,7 @@ cross-validation.</p>
 We will train a random forests model for 10 different numbers of trees
 with a 10-fold cross-validation and we keep the number of variables
 randomly selected for placing splits as three.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="final_project_website_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>From the graph, we see that the accuracy is greatly boosted from
 training only one tree to 101 trees, and the accuracy stays
 approximately the same for even larger number of trees trained. Having a
@@ -399,7 +401,7 @@ randomly selected as predictors on the accuracy of prediction. In this
 tuning process, we trained random forests for 8 different number of
 variables randomly selected as predictors with a 10-fold
 cross-validation and plot them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="final_project_website_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>From the plot, we see that having three randomly selected predictors
 has the highest accuracy. However, the accuracy across different number
 of randomly selected predictors do not vary much and are generally close
@@ -409,7 +411,7 @@ selected predictors.</p>
 <p>Next, we will tune the classification tree using the complexity
 parameter ranging from 0 to 0.1 with a 10-fold cross-validation and plot
 them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="final_project_website_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>From the graph, we see that the highest accuracy occurs when the
 complexity parameter is 0.02. The accuracy generally decreases as
 complexity parameter becomes larger. A larger complexity parameter will
@@ -417,7 +419,7 @@ generally result in a smaller number of nodes. This explains the general
 decreasing pattern in accuracy with complexity parameter increasing.</p>
 <p>Now, we will tune the number of neighbors for k-nearest neighbors
 with a 10-fold cross-validation and plot them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="final_project_website_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>From the graph, we see that the highest accuracy occurs for one
 number of neighbor. This might be due to that the predictors in the data
 set have a wide and varying range. We also see that the overall accuracy
@@ -426,7 +428,7 @@ number of neighbor is one.</p>
 <p>We will tune the bandwidth or flexibility of the kernel density and
 the laplace smoothing correction for naive bayes using a 10-fold
 cross-validation and plot them against the accuracy.</p>
-<p><img src="final_project_website_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="final_project_website_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>From the graph, we see that the accuracy is highest when bandwidth
 adjustment and laplace correction both equal to 1.</p>
 <p>Finally, we train a logistic regression with a 10-fold
