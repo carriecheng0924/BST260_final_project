@@ -1,7 +1,7 @@
-Final Project Report
+Final Project
 ================
 Carrie Cheng
-2022-11-30
+2022-12-10
 
 # Introduction
 
@@ -84,6 +84,13 @@ statistical methods and the machine learning algorithms. For random
 forests, we set the number of trees trained to be 100, and for k-nearest
 neighbors, we set the number of neighborhood to be 5.
 
+    ##               Accuracy Sensitivity Specificity
+    ## metric_logit 0.9008264   0.9361702   0.8783784
+    ## metric_rf    0.9752066   0.9361702   1.0000000
+    ## metric_tree  0.9586777   0.9148936   0.9864865
+    ## metric_nb    0.9090909   0.9574468   0.8783784
+    ## metric_knn   0.6942149   0.8510638   0.5945946
+
 From the table, random forests and classification trees have higher
 accuracy than logistic regression, but naive bayes and k-nearest
 neighbors have lower accuracy than logistic regression even though the
@@ -94,36 +101,42 @@ classification trees and k-nearest neighbors. In terms of specificity,
 classification trees have the highest value, followed by logistic
 regression and random forests, then naive bayes and k-nearest neighbors.
 In general, the specificity is higher than the sensitivity rate for the
-three out of five algorithms. This might result from the fact that there
-is an imbalance between the observed outcome of having an event and not
-having an event. If we look at the distribution of the outcome, we see
-that the proportion of outcome = 1 is higher than that of outcome = 0.
-![](final_project_website_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+three out of five algorithms.
 
 Now, let’s look at their F1 score against different cut-off thresholds
-for each algorithm. We see that for logistic regression, classification
-trees, naive bayes, different cut-offs do not generally influence the F1
-score. For random forests, different cut-off values do make a difference
-on the F1 score. Specifically, the cut-off value of 0.4 achieves the
-highest F1 score for random forests. This situation is likely due to
-that random forests apply bootstrapping strategy, which is very likely
-to result in variability among individual trees and their predictions
-and results. For k-nearest neighbors, we see there is a sudden jump from
-cut-off value of 0.3 to cut-off value of 0.4. This might indicate that
-the averages taken in different neighbors for this data set have a large
+for each algorithm.
+![](final_project_website_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+We see that for logistic regression, different cut-offs do not generally
+influence the F1 score.
+
+![](final_project_website_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+For random forests, different cut-off values do make a difference on the
+F1 score. Specifically, the cut-off value of 0.4 achieves the highest F1
+score for random forests. This situation is likely due to that random
+forests apply bootstrapping strategy, which is very likely to result in
+variability among individual trees and their predictions and results.
+
+![](final_project_website_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+We see that for classification trees, different cut-offs do not
+generally influence the F1 score.
+
+![](final_project_website_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+We see that for naive bayes, different cut-offs do not generally
+influence the F1 score.
+
+![](final_project_website_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+For k-nearest neighbors, we see there is a sudden jump from cut-off
+value of 0.3 to cut-off value of 0.4. This might indicate that the
+averages taken in different neighbors for this data set have a large
 variation so that setting the cut-off to 0.3 will make a difference in
 prediction. In general, logistic regression, classification trees,
 random forests, and naive bayes all have similar F1 scores, and
 k-nearest neighbors have the lowest F1 score.
-![](final_project_website_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
-
-![](final_project_website_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
-
-![](final_project_website_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
-
-![](final_project_website_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
-
-![](final_project_website_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 Nevertheless, these results are only based on a single cross-validation
 set with fixed parameters. However, the performance of these algorithms
@@ -138,7 +151,8 @@ will train a random forests model for 10 different numbers of trees with
 a 10-fold cross-validation and we keep the number of variables randomly
 selected for placing splits as three.
 
-![](final_project_website_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](final_project_website_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
 From the graph, we see that the accuracy is greatly boosted from
 training only one tree to 101 trees, and the accuracy stays
 approximately the same for even larger number of trees trained. Having a
@@ -150,7 +164,7 @@ process, we trained random forests for 8 different number of variables
 randomly selected as predictors with a 10-fold cross-validation and plot
 them against the accuracy.
 
-![](final_project_website_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](final_project_website_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 From the plot, we see that having three randomly selected predictors has
 the highest accuracy. However, the accuracy across different number of
@@ -163,7 +177,7 @@ Next, we will tune the classification tree using the complexity
 parameter ranging from 0 to 0.1 with a 10-fold cross-validation and plot
 them against the accuracy.
 
-![](final_project_website_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](final_project_website_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 From the graph, we see that the highest accuracy occurs when the
 complexity parameter is 0.02. The accuracy generally decreases as
@@ -174,7 +188,7 @@ decreasing pattern in accuracy with complexity parameter increasing.
 Now, we will tune the number of neighbors for k-nearest neighbors with a
 10-fold cross-validation and plot them against the accuracy.
 
-![](final_project_website_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](final_project_website_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 From the graph, we see that the highest accuracy occurs for one number
 of neighbor. This might be due to that the predictors in the data set
@@ -186,7 +200,7 @@ We will tune the bandwidth or flexibility of the kernel density and the
 laplace smoothing correction for naive bayes using a 10-fold
 cross-validation and plot them against the accuracy.
 
-![](final_project_website_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](final_project_website_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 From the graph, we see that the accuracy is highest when bandwidth
 adjustment and laplace correction both equal to 1.
