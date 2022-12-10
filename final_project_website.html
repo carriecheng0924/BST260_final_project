@@ -360,25 +360,31 @@ regression and random forests, then naive bayes and k-nearest neighbors.
 In general, the specificity is higher than the sensitivity rate for the
 three out of five algorithms.</p>
 <p>Now, let’s look at their F1 score against different cut-off
-thresholds for each algorithm. We see that for logistic regression,
-classification trees, naive bayes, different cut-offs do not generally
-influence the F1 score. For random forests, different cut-off values do
-make a difference on the F1 score. Specifically, the cut-off value of
-0.4 achieves the highest F1 score for random forests. This situation is
-likely due to that random forests apply bootstrapping strategy, which is
-very likely to result in variability among individual trees and their
-predictions and results. For k-nearest neighbors, we see there is a
-sudden jump from cut-off value of 0.3 to cut-off value of 0.4. This
-might indicate that the averages taken in different neighbors for this
-data set have a large variation so that setting the cut-off to 0.3 will
-make a difference in prediction. In general, logistic regression,
-classification trees, random forests, and naive bayes all have similar
-F1 scores, and k-nearest neighbors have the lowest F1 score.
+thresholds for each algorithm.
 <img src="final_project_website_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>We see that for logistic regression, different cut-offs do not
+generally influence the F1 score.</p>
 <p><img src="final_project_website_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>For random forests, different cut-off values do make a difference on
+the F1 score. Specifically, the cut-off value of 0.4 achieves the
+highest F1 score for random forests. This situation is likely due to
+that random forests apply bootstrapping strategy, which is very likely
+to result in variability among individual trees and their predictions
+and results.</p>
 <p><img src="final_project_website_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>We see that for classification trees, different cut-offs do not
+generally influence the F1 score.</p>
 <p><img src="final_project_website_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>We see that for naive bayes, different cut-offs do not generally
+influence the F1 score.</p>
 <p><img src="final_project_website_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>For k-nearest neighbors, we see there is a sudden jump from cut-off
+value of 0.3 to cut-off value of 0.4. This might indicate that the
+averages taken in different neighbors for this data set have a large
+variation so that setting the cut-off to 0.3 will make a difference in
+prediction. In general, logistic regression, classification trees,
+random forests, and naive bayes all have similar F1 scores, and
+k-nearest neighbors have the lowest F1 score.</p>
 <p>Nevertheless, these results are only based on a single
 cross-validation set with fixed parameters. However, the performance of
 these algorithms might differ with different parameters. Therefore, we

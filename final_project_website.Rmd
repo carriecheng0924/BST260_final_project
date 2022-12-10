@@ -179,7 +179,7 @@ table_compare
 
 From the table, random forests and classification trees have higher accuracy than logistic regression, but naive bayes and k-nearest neighbors have lower accuracy than logistic regression even though the accuracy of naive bayes is close to that of logistic regression. However, we see that in terms of sensitivity, naive bayes has the highest value, followed by logistic regression and random forest, then classification trees and k-nearest neighbors. In terms of specificity, classification trees have the highest value, followed by logistic regression and random forests, then naive bayes and k-nearest neighbors. In general, the specificity is higher than the sensitivity rate for the three out of five algorithms.
 
-Now, let's look at their F1 score against different cut-off thresholds for each algorithm. We see that for logistic regression, classification trees, naive bayes, different cut-offs do not generally influence the F1 score. For random forests, different cut-off values do make a difference on the F1 score. Specifically, the cut-off value of 0.4 achieves the highest F1 score for random forests. This situation is likely due to that random forests apply bootstrapping strategy, which is very likely to result in variability among individual trees and their predictions and results. For k-nearest neighbors, we see there is a sudden jump from cut-off value of 0.3 to cut-off value of 0.4. This might indicate that the averages taken in different neighbors for this data set have a large variation so that setting the cut-off to 0.3 will make a difference in prediction. In general, logistic regression, classification trees, random forests, and naive bayes all have similar F1 scores, and k-nearest neighbors have the lowest F1 score.
+Now, let's look at their F1 score against different cut-off thresholds for each algorithm. 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 cutoff <- seq(0.3, 0.7, by = 0.1)
 F1_logit <- map_dbl(cutoff, function(x){
@@ -190,6 +190,8 @@ plot(cutoff, F1_logit)
 
 ```
 
+We see that for logistic regression, different cut-offs do not generally influence the F1 score.
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 y_hat_rf_raw <- predict(rf_fit, newdata = test_dta, type = "prob")[, 2]
 F1_rf <- map_dbl(cutoff, function(x){
@@ -198,6 +200,8 @@ F1_rf <- map_dbl(cutoff, function(x){
 })
 plot(cutoff, F1_rf)
 ```
+
+For random forests, different cut-off values do make a difference on the F1 score. Specifically, the cut-off value of 0.4 achieves the highest F1 score for random forests. This situation is likely due to that random forests apply bootstrapping strategy, which is very likely to result in variability among individual trees and their predictions and results. 
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
@@ -210,6 +214,8 @@ plot(cutoff, F1_tree)
 
 ```
 
+We see that for classification trees, different cut-offs do not generally influence the F1 score.
+
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
 y_hat_nb_raw <- predict(naive_fit, newdata = test_dta[, -25], type = "prob")[, 2]
@@ -219,6 +225,8 @@ F1_nb <- map_dbl(cutoff, function(x){
 })
 plot(cutoff, F1_nb)
 ```
+
+We see that for naive bayes, different cut-offs do not generally influence the F1 score.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
@@ -230,6 +238,8 @@ F1_knn <- map_dbl(cutoff, function(x){
 plot(cutoff, F1_knn)
 
 ```
+
+For k-nearest neighbors, we see there is a sudden jump from cut-off value of 0.3 to cut-off value of 0.4. This might indicate that the averages taken in different neighbors for this data set have a large variation so that setting the cut-off to 0.3 will make a difference in prediction. In general, logistic regression, classification trees, random forests, and naive bayes all have similar F1 scores, and k-nearest neighbors have the lowest F1 score.
 
 Nevertheless, these results are only based on a single cross-validation set with fixed parameters. However, the performance of these algorithms might differ with different parameters. Therefore, we will implement a common practice of parameter tuning using a 10-fold cross-validation and record the best tuned model using a 10-fold cross-validation. Since there is no tuning parameter for logistic regression, we will only train the model with a 10-fold cross-validation. 
 
