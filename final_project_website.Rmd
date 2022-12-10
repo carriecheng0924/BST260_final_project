@@ -176,6 +176,7 @@ colnames(table_compare) <- c("Accuracy", "Sensitivity", "Specificity")
 table_compare
 
 ```
+
 From the table, random forests and classification trees have higher accuracy than logistic regression, but naive bayes and k-nearest neighbors have lower accuracy than logistic regression even though the accuracy of naive bayes is close to that of logistic regression. However, we see that in terms of sensitivity, naive bayes has the highest value, followed by logistic regression and random forest, then classification trees and k-nearest neighbors. In terms of specificity, classification trees have the highest value, followed by logistic regression and random forests, then naive bayes and k-nearest neighbors. In general, the specificity is higher than the sensitivity rate for the three out of five algorithms. This might result from the fact that there is an imbalance between the observed outcome of having an event and not having an event. If we look at the distribution of the outcome, we see that the proportion of outcome = 1 is higher than that of outcome = 0. 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 data %>% 
@@ -271,6 +272,7 @@ accuracy <- sapply(ntree, function(n){
 qplot(ntree, accuracy)
 
 ```
+
 From the graph, we see that the accuracy is greatly boosted from training only one tree to 101 trees, and the accuracy stays approximately the same for even larger number of trees trained. Having a large number of trees trained helps the accuracy of prediction.
 
 Next, we will also look at the influence of number of variables randomly selected as predictors on the accuracy of prediction. In this tuning process, we trained random forests for 8 different number of variables randomly selected as predictors with a 10-fold cross-validation and plot them against the accuracy. 
