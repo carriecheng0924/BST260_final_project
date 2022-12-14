@@ -3,6 +3,7 @@ title: "Final Project Report"
 author: "Carrie Cheng"
 date: "2022-11-30"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -77,7 +78,7 @@ data %>%
 
 ```
 
-After coding all the variables with qualitative descriptions into categorical variables with different levels or factors and filling the missing values as described above, we are ready to conduct an exploratory data analysis. From the plot, we see that age and the outcome might have a nonlinear relationship. Therefore, we calculate the pearson correlation to see the strength of linear relationship between each variable and the outcome.
+For the explanatory data analysis, we investigate the relationship between the variables and the outcome. From the plot, we see that age and the outcome might have a nonlinear relationship. Therefore, we calculate the pearson correlation to see the strength of linear relationship between each variable and the outcome.
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 ### Let's look at the correlation among the variables 
 corr_mat <- rcorr(as.matrix(data), type = "pearson")
