@@ -279,6 +279,7 @@ F1_knn <- map_dbl(cutoff, function(x){
 plot(cutoff, F1_knn, main = "F1 score for k-nearest neighbor")
 
 ```
+
 ```{r, echo = FALSE, results = 'hide', message = FALSE, warning = FALSE}
 
 table_F1 <- rbind(F1_logit, F1_rf, F1_tree, F1_nb, F1_knn)
