@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Carrie Cheng" />
+
+<meta name="date" content="2022-12-10" />
+
+<title>Final Project</title>
+
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Final Project</h1>
+<h4 class="author">Carrie Cheng</h4>
+<h4 class="date">2022-12-10</h4>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Higher accuracy in disease prediction would largely help patients and
+doctors. In this project, we aim to analyze whether machine learning
+algorithms would outperform the traditional logistic regression in a
+classification problem under the context of predicting disease. We will
+look at the chronic kidney disease data set from the UCI machine
+learning repository, and investigate which model out of the traditional
+statistical model and machine learning models could best classify the
+development of chronic kidney disease.</p>
+<p>The data set has 25 variables. One of these variables is the binary
+outcome variable recording whether the patient develops the kidney
+disease. The rest of the variables record the clinical information of
+the patients such as age, blood pressure, specific gravity, albumin,
+sugar, red blood cells, pus cell and bacteria. The data set contains
+both quantitative variables such as age, blood pressure, and sodium, and
+qualitative data such as albumin, sugar, hypertension. The data has
+missing values. To deal with the missing values, we impute the missing
+values with the mean of each variable excluding the missing values for
+quantitative variables, and the lowest or reference category for
+categorical variables.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>From the plot, we see that age and the outcome might have a nonlinear
+relationship. Therefore, we calculate the pearson correlation to see the
+strength of linear relationship between each variable and the
+outcome.</p>
+<pre><code>##       pearson correlation with outcome     p values
+## age                         0.21787598 1.098513e-05
+## bp                          0.29136656 2.877686e-09
+## sg                         -0.65970612 0.000000e+00
+## al                          0.52337662 0.000000e+00
+## su                          0.26625071 6.436108e-08
+## rbc                         0.28870505 4.059777e-09
+## pc                          0.35700856 1.814104e-13
+## pcc                         0.23748477 1.557398e-06
+## ba                          0.19087904 1.225307e-04
+## bgr                         0.39005523 4.440892e-16
+## bu                          0.37981834 3.552714e-15
+## sc                          0.29697131 1.377874e-09
+## sod                        -0.33828027 3.642864e-12
+## pot                         0.07699492 1.242047e-01
+## hemo                       -0.72217253 0.000000e+00
+## pcv                        -0.68935489 0.000000e+00
+## wbcc                        0.21059989 2.171006e-05
+## rbcc                       -0.58231038 0.000000e+00
+## htn                         0.57113322 0.000000e+00
+## dm                          0.52126341 0.000000e+00
+## cad                         0.24115247 1.059976e-06
+## appet                      -0.35747752 1.678657e-13
+## pe                          0.37010498 1.976197e-14
+## ane                         0.31798693 7.537082e-11
+## class                       1.00000000           NA</code></pre>
+<p>From the table, we see that the absolute values of the pearson
+correlation mostly do not exceed 0.5, which means that most of the
+variables appear to have a weak linear correlation with the outcome.
+However, we see that their corresponding p-values are small, which
+indicates that the variables are associated with the outcome. Therefore,
+we need to consider flexible models which could capture complex and
+nonlinear relationship between predictors and the outcome. In
+particular, we will consider random forests, naive bayes, decision tree,
+and k-nearest neighbors.</p>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<p>In order to investigate whether machine learning algorithms could
+capture more complex relationships between predictors and outcome, we
+will apply flexible models including classification trees, random
+forests, k-nearest neighbors, and naive bayes. First, we will train each
+algorithm with fixed parameters using only one train and test set for a
+reference purpose. We will also train a logistic regression in order to
+establish a comparison on the performance between the traditional
+statistical methods and the machine learning algorithms. For random
+forests, we set the number of trees trained to be 100, and for k-nearest
+neighbors, we set the number of neighborhood to be 5.</p>
+<pre><code>##               Accuracy Sensitivity Specificity
+## metric_logit 0.9008264   0.9361702   0.8783784
+## metric_rf    0.9752066   0.9361702   1.0000000
+## metric_tree  0.9586777   0.9148936   0.9864865
+## metric_nb    0.9090909   0.9574468   0.8783784
+## metric_knn   0.6942149   0.8510638   0.5945946</code></pre>
+<p>From the table, random forests and classification trees have higher
+accuracy than logistic regression, but k-nearest neighbors have lower
+accuracy than logistic regression, and the accuracy of naive bayes is
+close to that of logistic regression. However, we see that in terms of
+sensitivity, naive bayes has the highest value, followed by logistic
+regression and random forests, then classification trees and k-nearest
+neighbors. In addition, in terms of specificity, random forests and
+classification trees have the two highest values, followed by logistic
+regression and naive bayes, then k-nearest neighbors. In general, the
+sensitivity is higher than the specificity rate for three out of five
+algorithms.</p>
+<p>Now, let’s look at their F1 score against different cut-off
+thresholds for each algorithm.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>We see that for logistic regression, different cut-offs do not
+generally influence the F1 score.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>For random forests, the cut-off values from 0.3 to 0.6 have the same
+F1 score, and the cut-off value of 0.7 achieves the highest F1 score for
+random forests.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>We see that for classification trees, different cut-offs do not
+generally influence the F1 score.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>For naive bayes, a smaller cut-off value has a higher F1 score, and
+the highest F1 score occurs when the cut-off value is 0.3.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>For k-nearest neighbors, we see there is a sudden increase of F1
+score from cut-off value of 0.3 to cut-off value of 0.4.</p>
+<p>Nevertheless, these results are only based on a single
+cross-validation set with fixed parameters. However, the performance of
+these algorithms might differ with different parameters. Therefore, we
+will implement a common practice of parameter tuning using a 10-fold
+cross-validation on the train set and record the best tuned model. We
+will analyze whether parameter tuning improves the performance for each
+algorithm. Specifically, we will compare the tuning parameters with the
+accuracy. Since there is no tuning parameter for logistic regression, we
+will only train the model with a 10-fold cross-validation.</p>
+<p>For random forests, we will tune the number of trees trained first.
+We will train a random forests model for 10 different numbers of trees
+with a 10-fold cross-validation and we keep the number of variables
+randomly selected for placing splits as three.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>From the graph, we see that the accuracy is greatly boosted from
+training only one tree to 101 trees, and the accuracy stays
+approximately the same for even larger number of trees trained. Having a
+large number of trees trained helps the accuracy of prediction.</p>
+<p>Next, we will also look at the influence of number of variables
+randomly selected as predictors on the accuracy of prediction. In this
+tuning process, we trained random forests for 8 different number of
+variables randomly selected as predictors with a 10-fold
+cross-validation and plot them against the accuracy.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>From the plot, we see that having three randomly selected predictors
+has the highest accuracy. However, the accuracy across different number
+of randomly selected predictors do not vary much and are generally close
+to each other. With contrast to number of trees trained, the accuracy of
+prediction is more sensitive to a small change in the number of randomly
+selected predictors.</p>
+<p>Next, we will tune the classification tree using the complexity
+parameter ranging from 0 to 0.1 with a 10-fold cross-validation and plot
+them against the accuracy.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>From the graph, we see that the highest accuracy occurs when the
+complexity parameter is 0.02. The accuracy generally decreases as
+complexity parameter becomes larger. A larger complexity parameter will
+generally result in a smaller number of nodes. This explains the general
+decreasing pattern in accuracy with complexity parameter increasing.</p>
+<p>Now, we will tune the number of neighbors for k-nearest neighbors
+with a 10-fold cross-validation and plot them against the accuracy.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>From the graph, we see that the highest accuracy occurs for one
+number of neighbor. This might be due to that the predictors in the data
+set have a wide and varying range. We also see that the overall accuracy
+of k-nearest neighbor is low even though the accuracy is higher when
+number of neighbor is one.</p>
+<p>We will tune the bandwidth or flexibility of the kernel density and
+the laplace smoothing correction for naive bayes using a 10-fold
+cross-validation and plot them against the accuracy.</p>
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>From the graph, we see that the accuracy is highest when bandwidth
+adjustment and laplace correction both equal to 1.</p>
+<p>Finally, we train a logistic regression with a 10-fold
+cross-validation since there is no tuning parameter for logistic
+regression.</p>
+<pre><code>##                Accuracy
+## random forest 0.9785532
+## tree          0.9322386
+## knn           0.7600666
+## naive bayes   0.9361978
+## logit         0.9504926</code></pre>
+<p>Now, let’s compare the best tuned models. From the table, we see that
+the best tuned model for random forests has the highest accuracy,
+followed by the logistic regression. Classification tree and naive bayes
+have similar accuracy, and the k-nearest neighbors have the lowest
+accuracy.</p>
+<p>Next, let’s use the best tuned parameter for each algorithm to train
+the corresponding algorithm on the train set and evaluated it using the
+test set, and we will compare the performances of the best tuned models
+with the models using fixed parameters that we trained previously.</p>
+<pre><code>##                        Accuracy Sensitivity Specificity
+## metric_logit          0.9008264   0.9361702   0.8783784
+## metric_rf_bestmodel   0.9752066   0.9361702   1.0000000
+## metric_tree_bestmodel 0.9586777   0.9148936   0.9864865
+## metric_nb_bestmodel   0.9504132   0.9574468   0.9459459
+## metric_knn_bestmodel  0.6611570   0.7872340   0.5810811</code></pre>
+<p>From the above table, we see that after training the best tuned
+model, random forests have the highest accuracy, followed by
+classification tree and naive bayes, then logistic regression, and
+k-nearest neighbors have the lowest accuracy. Compared to the
+performance of each algorithm with fixed parameters, we see that random
+forests and classification tree have the same performance, and naive
+bayes increases its accuracy. However, k-nearest neighbors decreases
+accuracy by parameter tuning, and it is still the lowest in terms of
+accuracy, which underperforms logistic regression. In general, by tuning
+parameter, the machine learning algorithms random forests, naive bayes,
+and classification trees perform at least no worse than the traditional
+logistic regression.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>In this project, we aim to compare the performance of nonparametric
+machine learning algorithms and parametric logistic regression under a
+classification problem for predicting diseases and try to determine
+which machine learning model performs the best. In particular, we used
+random forests, classification tree, k-nearest neighbors, and naive
+bayes to compare with the logistic regression. In general, we see that
+parameter tuning helps improve the performance of most of machine
+learning algorithms. After tuning the parameter, most machine learning
+algorithms except the k-nearest neighbors performs better than the
+logistic regression. Therefore, the nonparametric approaches using
+machine learning algorithms outperform the logistic regression for
+classifying the kidney disease in this data set, and the best predictive
+model in terms of accuracy is random forests.</p>
+<p>Therefore, the analysis in this project was successful as we see that
+there was an improvement in accuracy in predicting the kidney disease
+using machine learning algorithms implemented in this project except
+k-nearest neighbors. However, because of the limitation of time, one
+should also consider the variance of the performance metrics including
+accuracy, sensitivity, and specificity by repeatedly splitting the data
+into test and train set and look at the variation among the performance
+metrics calculated for each data splitting. Another limitation of this
+project is that the project only considered the performance metrics of
+the machine learning algorithms, but did not analyze the time that each
+machine learning algorithm took to perform the training and prediction
+and compare it with time taken for training logistic regression.</p>
+</div>
+<div id="reference" class="section level1">
+<h1>Reference</h1>
+<p>UCI Machine Learning Repository: Chronic_kidney_disease Data Set, <a
+href="https://archive.ics.uci.edu/ml/datasets/Chronic_Kidney_Disease"
+class="uri">https://archive.ics.uci.edu/ml/datasets/Chronic_Kidney_Disease</a>.</p>
+<p>Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [<a
+href="http://archive.ics.uci.edu/ml"
+class="uri">http://archive.ics.uci.edu/ml</a>]. Irvine, CA: University
+of California, School of Information and Computer Science.</p>
+<p>Irizarry, Rafael A. Introduction to Data Science: Data Analysis and
+Prediction Algorithms with R. CRC, 2020.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
