@@ -2,14 +2,11 @@
 title: "Final Project Report"
 author: "Carrie Cheng"
 date: "2022-11-30"
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+output: pdf_document
 ---
 # Introduction
 
-Higher accuracy in disease prediction would largely help patients and doctors. However, modern day data sets are usually complex, and the traditional statistical models for prediction might not be enough. Therefore, in this project, we aim to analyze whether machine learning algorithms would outperform the traditional logistic regression in a classification problem under the context of predicting disease. We will look at the chronic kidney disease data set from the UCI machine learning repository, and investigate which model out of the traditional statistical model and machine learning models could best classify the development of chronic kidney disease.
+Higher accuracy in disease prediction would largely help patients and doctors. In this project, we aim to analyze whether machine learning algorithms would outperform the traditional logistic regression in a classification problem under the context of predicting disease. We will look at the chronic kidney disease data set from the UCI machine learning repository, and investigate which model out of the traditional statistical model and machine learning models could best classify the development of chronic kidney disease.
 ```{r, echo = FALSE, results = 'hide', message = FALSE, warning = FALSE}
 library(farff)
 library(Hmisc)
@@ -98,7 +95,7 @@ class_corr_pvalue <- cbind(corr_class, pvalue_class)
 class_corr_pvalue
 ```
 
-From the table, we see that the absolute values of the pearson correlation mostly do not exceed 0.5, which means that most of the variables appear to have a weak linear correlation with the outcome. However, we see that their corresponding p values are small, which indicates that the variables are associated with the outcome. Therefore, we need to consider flexible models which could capture complex and nonlinear relationship between predictors and the outcome. Under the classification context, classification tree and random forests allow for flexible splits in each variable, which could help learning complicated information from the data. Specifically, random forests might perform more stable than a single classification tree because it bootstraps the data sample and take an average over differently trained trees. K-nearest neighbors and naive bayes could also provide insights in performance of flexible modelings under different approaches. 
+From the table, we see that the absolute values of the pearson correlation mostly do not exceed 0.5, which means that most of the variables appear to have a weak linear correlation with the outcome. However, we see that their corresponding p-values are small, which indicates that the variables are associated with the outcome. Therefore, we need to consider flexible models which could capture complex and nonlinear relationship between predictors and the outcome. Under the classification context, classification tree and random forests could help learning complicated information from the data. Specifically, random forests might perform more stable than a single classification tree because it bootstraps the data sample and take an average over differently trained trees. 
 
 ```{r, echo = FALSE, eval = FALSE, message = FALSE, warning = FALSE}
 data %>% 
@@ -121,14 +118,14 @@ data %>%
     facet_wrap(~ name, scales = "free")
 
 ```
-Furthermore, for a sanity check, we look at the distribution of the categorical variables. We see that each category of the categorical variables contains nonzero counts. The complexity of the data set also comes from having both quantitative and qualitative variables. Machine learning algorithms such as k-nearest neighbors and naive bayes and trees might help in adapting this because they could flexibly select and learn from each variable by placing splits or taking average of the neighbors. Therefore, we are ready to train these models, and finally, we will also train a logistic regression model to provide a comparison. In addition, we will also apply parameter tuning using a 10-fold cross-validation to select the best tuned model. 
+Furthermore, for a sanity check, we look at the distribution of the categorical variables. We see that each category of the categorical variables contains nonzero counts. Since the data set has both quantitative and qualitative variables, machine learning algorithms such as k-nearest neighbors and naive bayes and trees might help in adapting this because they could flexibly select and learn from each variable. Therefore, we are ready to train these models, and finally, we will also train a logistic regression model to provide a comparison. In addition, we will also apply parameter tuning using a 10-fold cross-validation to select the best tuned model. 
 
 
 # Results
 
 In order to investigate whether machine learning algorithms could capture more complex relationships between predictors and outcome, we will apply flexible models including classification trees, random forests, k-nearest neighbors, and naive bayes. First, we will train each algorithm with fixed parameters using only one train and test set for a reference purpose. We will also train a logistic regression in order to establish a comparison on the performance between the traditional statistical methods and the machine learning algorithms. For random forests, we set the number of trees trained to be 100, and for k-nearest neighbors, we set the number of neighborhood to be 5. 
 
-```{r, echo = FALSE, results = 'hide', message = FALSE, warning = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 #### Let's start with logistics regression 
 
 set.seed(2022)
@@ -189,11 +186,16 @@ conf_mat_knn <- confusionMatrix(y_hat_knn, test_dta$class)
 
 ##### Table to compare accuracy, sensitivity and specificity
 
-metric_logit <- c(conf_mat_logit$overall[["Accuracy"]], conf_mat_logit$byClass[c("Sensitivity","Specificity")])
-metric_rf <- c(conf_mat_rf$overall[["Accuracy"]], conf_mat_rf$byClass[c("Sensitivity","Specificity")])
-metric_tree <- c(conf_mat_tree$overall[["Accuracy"]], conf_mat_tree$byClass[c("Sensitivity","Specificity")])
-metric_nb <- c(conf_mat_nb$overall[["Accuracy"]], conf_mat_nb$byClass[c("Sensitivity","Specificity")])
-metric_knn <- c(conf_mat_knn$overall[["Accuracy"]], conf_mat_knn$byClass[c("Sensitivity","Specificity")])
+metric_logit <- c(conf_mat_logit$overall[["Accuracy"]], 
+                  conf_mat_logit$byClass[c("Sensitivity","Specificity")])
+metric_rf <- c(conf_mat_rf$overall[["Accuracy"]], 
+               conf_mat_rf$byClass[c("Sensitivity","Specificity")])
+metric_tree <- c(conf_mat_tree$overall[["Accuracy"]], 
+                 conf_mat_tree$byClass[c("Sensitivity","Specificity")])
+metric_nb <- c(conf_mat_nb$overall[["Accuracy"]], 
+               conf_mat_nb$byClass[c("Sensitivity","Specificity")])
+metric_knn <- c(conf_mat_knn$overall[["Accuracy"]], 
+                conf_mat_knn$byClass[c("Sensitivity","Specificity")])
 
 table_compare <- rbind(metric_logit, metric_rf, metric_tree, metric_nb, metric_knn)
 
@@ -202,7 +204,7 @@ colnames(table_compare) <- c("Accuracy", "Sensitivity", "Specificity")
 table_compare
 
 ```
-From the table, random forests and classification trees have higher accuracy than logistic regression, but naive bayes and k-nearest neighbors have lower accuracy than logistic regression even though the accuracy of naive bayes is close to that of logistic regression. However, we see that in terms of sensitivity, naive bayes has the highest value, followed by logistic regression and random forest, then classification trees and k-nearest neighbors. This might due to the fact that the naive bayes estimator uses the bayes's theorem as its methodology and calculates a posterior from a pre-specified prior, which might put more emphasis on the prediction of having an event for the outcome. In addition, in terms of specificity, classification trees have the highest value, followed by logistic regression and random forests, then naive bayes and k-nearest neighbors. In general, the specificity is higher than the sensitivity rate for the three out of five algorithms. This might result from the fact that there is an imbalance between the observed outcome of having an event and not having an event. If we look at the distribution of the outcome, we see that the proportion of outcome = 1 is higher than that of outcome = 0. 
+From the table, random forests and classification trees have higher accuracy than logistic regression, but k-nearest neighbors have lower accuracy than logistic regression, and the accuracy of naive bayes is close to that of logistic regression. However, we see that in terms of sensitivity, naive bayes has the highest value, followed by logistic regression and random forests, then classification trees and k-nearest neighbors. In addition, in terms of specificity, random forests and classification trees have the two highest values, followed by logistic regression and naive bayes, then k-nearest neighbors. In general, the sensitivity is higher than the specificity rate for three out of five algorithms. This might result from the fact that there is an imbalance between the observed outcome of having an event and not having an event. If we look at the distribution of the outcome, we see that the proportion of outcome = 1 is higher than that of outcome = 0. 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 data %>% 
   mutate(class = as.numeric(class),
@@ -224,16 +226,16 @@ data %>%
     facet_wrap(~ name, scales = "free")
 
 ```
-In general, random forests perform the best in terms of an aggregate of the metrics, and logistics regression has an average performance. However, we see that k-nearest neighbors performs the worst of the five algorithms in terms of each metric. This might due to the fact that the k-nearest neighbors simply take an average over its neighbors and might ignore some complex relationship between predictors and outcome and their variability while performing the predictions.
+In general, random forests perform the best in terms of an aggregate of the metrics. We see that k-nearest neighbors performs the worst of the five algorithms in terms of each metric. This might due to the fact that the k-nearest neighbors simply take an average over its neighbors and might ignore some complex relationship between predictors and outcome and their variability while performing the predictions.
 
-Now, let's look at their F1 score, which is a combination (a harmonic average) of sensitivity and specificity metrics. Let's plot their F1 score curves against five different cut-offs ranging from 0.3 to 0.7. We see that for logistic regression, classification trees, naive bayes, different cut-offs do not generally influence the F1 score. For random forests, different cut-off values do make a difference on the F1 score. Specifically, the cut-off value of 0.4 achieves the highest F1 score for random forests. This situation is likely due to that random forests apply bootstrapping strategy, which is very likely to result in variability among individual trees and their predictions and results. For k-nearest neighbors, we see there is a sudden jump from cut-off value of 0.3 to cut-off value of 0.4. This might indicate that the averages taken in different neighbors for this data set have a large variation so that setting the cut-off to 0.3 will make a difference in prediction. In general, logistic regression, classification trees, random forests, and naive bayes all have similar F1 scores, and k-nearest neighbors have the lowest F1 score.
+Now, let's look at their F1 score, which is a combination (a harmonic average) of sensitivity and specificity metrics. Let's plot their F1 score curves against five different cut-offs ranging from 0.3 to 0.7. We see that for logistic regression, and classification trees, different cut-offs do not generally influence the F1 score. For random forests, the cut-off values from 0.3 to 0.6 have the same F1 score, and the cut-off value of 0.7 achieves the highest F1 score for random forests. This situation is likely due to that random forests apply bootstrapping strategy, which is very likely to result in variability among individual trees and their predictions and results. For k-nearest neighbors, we see there is a sudden increase of F1 score from cut-off value of 0.3 to cut-off value of 0.4. For naive bayes, a smaller cut-off value has a higher F1 score, and the highest F1 score occurs when the cut-off value is 0.3. 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 cutoff <- seq(0.3, 0.7, by = 0.1)
 F1_logit <- map_dbl(cutoff, function(x){
   y_hat <- ifelse(y_hat_logit_raw > x, 1, 0) %>% factor() 
   F_meas(data = y_hat, reference = test_dta$class)
 })
-plot(cutoff, F1_logit)
+plot(cutoff, F1_logit, main = "F1 score for logistic regression")
 
 ```
 
@@ -243,7 +245,7 @@ F1_rf <- map_dbl(cutoff, function(x){
   y_hat <- ifelse(y_hat_rf_raw > x, 1, 0) %>% factor() 
   F_meas(data = y_hat, reference = test_dta$class)
 })
-plot(cutoff, F1_rf)
+plot(cutoff, F1_rf, main = "F1 score for random forests")
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -253,7 +255,7 @@ F1_tree <- map_dbl(cutoff, function(x){
   y_hat <- ifelse(y_hat_tree_raw > x, 1, 0) %>% factor() 
   F_meas(data = y_hat, reference = test_dta$class)
 })
-plot(cutoff, F1_tree)
+plot(cutoff, F1_tree, main = "F1 score for classification tree")
 
 ```
 
@@ -264,7 +266,7 @@ F1_nb <- map_dbl(cutoff, function(x){
   y_hat <- ifelse(y_hat_nb_raw > x, 1, 0) %>% factor() 
   F_meas(data = y_hat, reference = test_dta$class)
 })
-plot(cutoff, F1_nb)
+plot(cutoff, F1_nb, main = "F1 score for naive bayes")
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -274,11 +276,25 @@ F1_knn <- map_dbl(cutoff, function(x){
   y_hat <- ifelse(y_hat_knn_raw > x, 1, 0) %>% factor() 
   F_meas(data = y_hat, reference = test_dta$class)
 })
-plot(cutoff, F1_knn)
+plot(cutoff, F1_knn, main = "F1 score for k-nearest neighbor")
+
+```
+```{r, echo = FALSE, results = 'hide', message = FALSE, warning = FALSE}
+
+table_F1 <- rbind(F1_logit, F1_rf, F1_tree, F1_nb, F1_knn)
+rownames(table_F1) <- c("F1 score logit", 
+                        "F1 score random forests", 
+                        "F1 score classification tree",
+                        "F1 score naive bayes",
+                        "F1 score k-nearest neighbor")
+
+colnames(table_F1) <- c(0.3, 0.4, 0.5, 0.6, 0.7)
+
+table_F1
 
 ```
 
-Nevertheless, these results are only based on a single cross-validation set with fixed parameters. However, the performance of these algorithms might differ with different parameters. Therefore, we will implement a common practice of parameter tuning using a 10-fold cross-validation and record the best tuned model. We will analyze whether parameter tuning improves the performance for each algorithm. Specifically, we will compare the tuning parameters with the accuracy. Since there is no tuning parameter for logistic regression, we will only train the model with a 10-fold cross-validation. 
+Nevertheless, these results are only based on a single cross-validation set with fixed parameters. However, the performance of these algorithms might differ with different parameters. Therefore, we will implement a common practice of parameter tuning using a 10-fold cross-validation on the train set and record the best tuned model. We will analyze whether parameter tuning improves the performance for each algorithm. Specifically, we will compare the tuning parameters with the accuracy. Since there is no tuning parameter for logistic regression, we will only train the model with a 10-fold cross-validation. 
 
 We will start with random forests. There are several parameters that could be tuned for random forests such as the number of variables randomly selected, the size of each node, and number of trees trained. Here, we will investigate the accuracy versus the number of trees trained. We will train a random forests model for 10 different numbers of trees with a 10-fold cross-validation and we keep the number of variables randomly selected for placing splits as three. 
 
@@ -290,7 +306,7 @@ set.seed(2022)
 ###### random forest ######
 ntree <- seq(1, 1000, by = 100)
 accuracy <- sapply(ntree, function(n){
-  train(as.factor(class) ~ ., method = "rf", data = data,
+  train(as.factor(class) ~ ., method = "rf", data = train_dta,
                tuneGrid = data.frame(mtry = 3),
                ntree = n, trControl = trainControl(method = "cv", number = 10))$results$Accuracy
 })
@@ -306,7 +322,7 @@ Next, we will also look at the influence of number of variables randomly selecte
 
 ###### random forest tuning ########
 
-train_rf <- train(as.factor(class) ~ ., method = "rf", data = data,
+train_rf <- train(as.factor(class) ~ ., method = "rf", data = train_dta,
                tuneGrid = data.frame(mtry = seq(1, 15, by = 2)),
                nodesize = 10, trControl = trainControl(method = "cv", number = 10))
 
@@ -328,7 +344,7 @@ Next, we will tune the classification tree using the complexity parameter rangin
 train_rpart <- train(as.factor(class) ~ .,
                      method = "rpart",
                      tuneGrid = data.frame(cp = seq(0.0, 0.1, by = 0.005)),
-                     data = data, trControl = trainControl(method = "cv", number = 10))
+                     data = train_dta, trControl = trainControl(method = "cv", number = 10))
 plot(train_rpart)
 
 tree_bestTune <- train_rpart$bestTune
@@ -344,7 +360,7 @@ We will tune the number of neighbors for k-nearest neighbors with a 10-fold cros
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 ########## knn ###########
 
-train_knn <- train(as.factor(class) ~ ., method = "knn", data = data,
+train_knn <- train(as.factor(class) ~ ., method = "knn", data = train_dta,
                    tuneGrid = data.frame(k = seq(1, 15, by = 2)), trControl = trainControl(method = "cv", number = 10))
 
 plot(train_knn)
@@ -362,7 +378,7 @@ We will tune the bandwidth or flexibility of the kernel density and the laplace 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 ######## naive bayes ############
 
-train_nb <- train(as.factor(class) ~ ., method = "naive_bayes", data = data,
+train_nb <- train(as.factor(class) ~ ., method = "naive_bayes", data = train_dta,
                    tuneGrid = data.frame(laplace = 1:10, usekernel = TRUE, adjust = 1:10),
                   trControl = trainControl(method = "cv", number = 10))
 
@@ -380,17 +396,11 @@ Finally, we train a logistic regression with a 10-fold cross-validation since th
 
 ########## logistic regression #########
 
-train_logit <- train(as.factor(class) ~ ., method = "glm", family = "binomial", data = data,
+train_logit <- train(as.factor(class) ~ ., method = "glm", family = "binomial", data = train_dta,
                   trControl = trainControl(method = "cv", number = 10))
 
 
 logit_result <- train_logit$results
-
-```
-
-Now, let's compare the best tuned models. 
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
 ######## table comparing accuracy of best tuned ##################
 
@@ -404,11 +414,61 @@ as.data.frame(table_10cv)
 
 ```
 
-From the table, we see that the best tuned model for random forests has the highest accuracy, followed by naive bayes. Classification tree and logistic regression have similar accuracy performance, and the k-nearest neighbors have the lowest accuracy. Comparing to the performance of each algorithm with fixed algorithm, we see that random forests, naive bayes, and k-nearest neighbors have improved performance. However, even though k-nearest neighbors increases accuracy by parameter tuning, it is still the lowest in terms of accuracy and underperforms logistic regression. In general, by tuning parameter, the machine learning algorithms random forests, naive bayes, and classification trees perform as least no worse than the traditional logistic regression. 
+Now, let's compare the best tuned models. From the table, we see that the best tuned model for random forests has the highest accuracy, followed by the logistic regression. Classification tree and naive bayes have similar accuracy, and the k-nearest neighbors have the lowest accuracy. 
+
+Next, let's use the best tuned parameter for each algorithm to train the corresponding algorithm on the train set and evaluated it using the test set, and we will compare the performances of the best tuned models with the models using fixed parameters that we trained previously.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+
+##### predict using the best tuned model #####
+
+fit_rf_bestmodel <- randomForest(as.factor(class) ~., data = train_dta, mtry = rf_bestTune$mtry, nodesize = 10)
+
+y_hat_rf_bestmodel <- predict(fit_rf_bestmodel, newdata = test_dta) 
+conf_mat_rf_bestmodel <- confusionMatrix(y_hat_rf_bestmodel, test_dta$class)
+
+fit_tree_bestmodel <- rpart(as.factor(class) ~., data = train_dta, control = rpart.control(cp = tree_bestTune$cp))
+y_hat_tree_bestmodel <- predict(fit_tree_bestmodel, newdata = test_dta, type = "class")
+conf_mat_tree_bestmodel <- confusionMatrix(y_hat_tree_bestmodel, test_dta$class)
+
+fit_naive_bestmodel <- naive_bayes(as.factor(class) ~., data = train_dta, 
+                                   laplace = nb_bestTune$laplace, 
+                                   usekernel = nb_bestTune$usekernel,
+                                   adjust = nb_bestTune$adjust)
+
+y_hat_naive_bestmodel <- predict(fit_naive_bestmodel, newdata = test_dta)
+conf_mat_nb_bestmodel <- confusionMatrix(y_hat_naive_bestmodel, test_dta$class)
+
+fit_knn_bestmodel <- knn3(train_dta[,-25], train_dta$class, k = knn_bestTune$k)
+y_hat_knn_bestmodel <- predict(fit_knn_bestmodel, newdata = test_dta[, -25], type = 'class')
+conf_mat_knn_bestmodel <- confusionMatrix(y_hat_knn_bestmodel, test_dta$class)
+
+metric_rf_bestmodel <- c(conf_mat_rf_bestmodel$overall[["Accuracy"]], 
+               conf_mat_rf_bestmodel$byClass[c("Sensitivity","Specificity")])
+metric_tree_bestmodel <- c(conf_mat_tree_bestmodel$overall[["Accuracy"]], 
+                 conf_mat_tree_bestmodel$byClass[c("Sensitivity","Specificity")])
+metric_nb_bestmodel <- c(conf_mat_nb_bestmodel$overall[["Accuracy"]], 
+               conf_mat_nb_bestmodel$byClass[c("Sensitivity","Specificity")])
+metric_knn_bestmodel <- c(conf_mat_knn_bestmodel$overall[["Accuracy"]], 
+                conf_mat_knn_bestmodel$byClass[c("Sensitivity","Specificity")])
+
+table_compare_bestmodel <- rbind(metric_logit,
+                                 metric_rf_bestmodel, 
+                                 metric_tree_bestmodel, 
+                                 metric_nb_bestmodel, 
+                                 metric_knn_bestmodel)
+
+colnames(table_compare_bestmodel) <- c("Accuracy", "Sensitivity", "Specificity")
+
+table_compare_bestmodel
+
+```
+
+From the above table, we see that after training the best tuned model, random forests have the highest accuracy, followed by classification tree and naive bayes, then logistic regression, and k-nearest neighbors have the lowest accuracy. Compared to the performance of each algorithm with fixed parameters, we see that random forests and classification tree have the same performance, and naive bayes increases its accuracy. However, k-nearest neighbors decreases accuracy by parameter tuning, and it is still the lowest in terms of accuracy, which underperforms logistic regression. In general, by tuning parameter, the machine learning algorithms random forests, naive bayes, and classification trees perform at least no worse than the traditional logistic regression. 
 
 # Conclusion
 
-In this project, we aim to compare the performance of nonparametric machine learning algorithms and parametric logistic regression under a classification problem for predicting diseases and try to determine which machine learning model performs the best. In particular, we used random forests, classification tree, k-nearest neighbors, and naive bayes to compare with the logistic regression. For each algorithm, we first split the data into one train set and one test set, and train the model using the train set. We compare the resulting accuracy, sensitivity, and specificity using the test set. Of the five models, random forests and classification tree have the highest accuracy. Naive bayes has the highest sensitivity, and classification tree has the highest specificity. We also look at the F1 score with different cut-offs for each model. Of the five models, random forests appear to be the most sensitive to cut-off values and have the best accuracy with a cut-off of 0.4. These metrics will serve as a reference performance, and we next implement the strategy of parameter tuning with a 10-fold cross-validation for each of the machine learning algorithms. Specifically, we tune the number of trees trained and number of randomly selected predictors for random forests, complexity parameter for tree, number of neighbors for k-nearest neighbors, kernal bandwidth and laplace correction for naive bayes. For the logistic regression, we only apply a 10-fold cross-validation since there is no tuning parameter. In general, we see that parameter tuning helps improve the performance of most of machine learning algorithms. After tuning the parameter, most machine learning algorithms except the k-nearest neighbors performs at least as good as the logistic regression. Therefore, the nonparametric approaches using machine learning algorithms outperform the logistic regression for classifying the kidney disease in this data set, and the best predictive model in terms of accuracy is random forests. 
+In this project, we aim to compare the performance of nonparametric machine learning algorithms and parametric logistic regression under a classification problem for predicting diseases and try to determine which machine learning model performs the best. In particular, we used random forests, classification tree, k-nearest neighbors, and naive bayes to compare with the logistic regression. For each algorithm, we first split the data into one train set and one test set, and train the model using the train set. We compare the resulting accuracy, sensitivity, and specificity using the test set. Of the five models, random forests and classification tree have the highest accuracy. Naive bayes has the highest sensitivity, and random forests has the highest specificity. We also look at the F1 score with different cut-offs for each model. Of the five models, k-nearest neighbor, naive bayes and random forests appear to be influenced by the different cut-off values. These metrics will serve as a reference performance, and we next implement the strategy of parameter tuning with a 10-fold cross-validation for each of the machine learning algorithms on the train set. Specifically, we tune the number of trees trained and number of randomly selected predictors for random forests, complexity parameter for tree, number of neighbors for k-nearest neighbors, kernel bandwidth and laplace correction for naive bayes. For the logistic regression, we only apply a 10-fold cross-validation since there is no tuning parameter to provide a comparison with the machine learning algorithms. In general, we see that parameter tuning helps improve the performance of most of machine learning algorithms. After tuning the parameter, most machine learning algorithms except the k-nearest neighbors performs better than the logistic regression. Therefore, the nonparametric approaches using machine learning algorithms outperform the logistic regression for classifying the kidney disease in this data set, and the best predictive model in terms of accuracy is random forests. 
 
 Therefore, the analysis in this project was successful as we see that there was an improvement in accuracy in predicting the kidney disease using machine learning algorithms implemented in this project except k-nearest neighbors. However, because of the limitation of time, one should also consider the variance of the performance metrics including accuracy, sensitivity, and specificity by repeatedly splitting the data into test and train set and look at the variation among the performance metrics calculated for each data splitting. Another limitation of this project is that the project only considered the performance metrics of the machine learning algorithms, but did not analyze the time that each machine learning algorithm took to perform the training and prediction and compare it with time taken for training logistic regression.  
 
